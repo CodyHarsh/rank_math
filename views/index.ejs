@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Search</title>
+    <link rel="stylesheet" href="styles/index.css">
+</head>
+<body>
+    <h1>Movie Search</h1>
+    <form id="searchForm" action="/" method="POST">
+        <input type="text" name="movieName" placeholder="Enter movie name" required>
+        <button type="submit">Search</button>
+    </form>
+
+    <div id="loader" class="loader"></div>
+
+    <div id="movieDetails">
+        <% if (locals.movie) { %>
+            <div class="movie-details">
+                
+                <% if (movie.poster == 'N/A') { %>
+                    <img src="assets/imageNotFound.png" alt="<%= movie.title %> poster" class="movie-poster">
+                <% } else { %>
+                    <img src="<%= movie.poster %>" alt="<%= movie.title %> poster" class="movie-poster">
+                <% } %>
+                <h2><%= movie.title %> (<%= movie.year %>)</h2>
+                <p><strong>Rated:</strong> <%= movie.rated %></p>
+                <p><strong>Released:</strong> <%= movie.released %></p>
+                <p><strong>Runtime:</strong> <%= movie.runtime %></p>
+                <p><strong>Genre:</strong> <%= movie.genre %></p>
+                <p><strong>Director:</strong> <%= movie.director %></p>
+                <p><strong>Writer:</strong> <%= movie.writer %></p>
+                <p><strong>Actors:</strong> <%= movie.actors %></p>
+                <p><strong>Plot:</strong> <%= movie.plot %></p>
+                <p><strong>Language:</strong> <%= movie.language %></p>
+                <p><strong>Country:</strong> <%= movie.country %></p>
+                <p><strong>Awards:</strong> <%= movie.awards %></p>
+                <p><strong>IMDb Rating:</strong> <%= movie.imdbRating %></p>
+                <p><strong>Box Office:</strong> <%= movie.boxOffice %></p>
+                <% if(movie.ratings.length > 0) { %>
+                    <h3>Ratings:</h3>
+                    <ul>
+                        <% movie.ratings.forEach(function(rating) { %>
+                            <li><%= rating.Source %>: <%= rating.Value %></li>
+                        <% }); %>
+                    </ul>
+                <% }%>
+                
+            </div>
+        <% } else if (locals.error) { %>
+            <p class="error-p"><%= error %></p>
+        <% } %>
+    </div>
+
+    <script>
+        document.getElementById('searchForm').addEventListener('submit', function(e) {
+            document.getElementById('loader').style.display = 'block';
+            document.getElementById('movieDetails').style.display = 'none';
+        });
+    </script>
+</body>
+</html>
